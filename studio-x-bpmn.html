@@ -120,8 +120,14 @@
         height: clamp(720px, 75vh, 860px);
         border-radius: 18px;
         overflow: hidden;
-        background: linear-gradient(120deg, rgba(241, 245, 249, 0.9), rgba(226, 232, 240, 0.65));
+        background: #ffffff;
         border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.18);
+      }
+
+      #canvas .djs-container {
+        background: #ffffff;
+        border-radius: 16px;
       }
 
       footer {
@@ -853,153 +859,138 @@
         .importXML(diagramXML)
         .then(() => {
           const canvas = viewer.get('canvas');
-          const elementRegistry = viewer.get('elementRegistry');
-          const modeling = viewer.get('modeling');
           const overlays = viewer.get('overlays');
+          const elementRegistry = viewer.get('elementRegistry');
 
           canvas.zoom('fit-viewport');
           const currentZoom = canvas.zoom();
           canvas.zoom(currentZoom * 0.94, 'auto');
 
-          const processRoot = elementRegistry.get('Process_StudioX');
-          if (processRoot) {
-            canvas.scrollToElement(processRoot, { top: 32, bottom: 32, left: 32, right: 32 });
+          if (elementRegistry) {
+            const processRoot = elementRegistry.get('Process_StudioX');
+            if (processRoot) {
+              canvas.scrollToElement(processRoot, { top: 32, bottom: 32, left: 32, right: 32 });
+            }
           }
 
-          if (modeling) {
-            const lanePalette = {
-              Lane_User: { fill: '#def7ec', stroke: '#0f766e' },
-              Lane_Frontend: { fill: '#ede9fe', stroke: '#7c3aed' },
-              Lane_Backend: { fill: '#dbeafe', stroke: '#2563eb' },
-              Lane_Spark: { fill: '#fef3c7', stroke: '#d97706' },
-              Lane_Modelos: { fill: '#e2e8f0', stroke: '#475569' }
-            };
+          const lanePalette = {
+            Lane_User: { fill: '#fdf2f8', stroke: '#be185d' },
+            Lane_Frontend: { fill: '#eef2ff', stroke: '#4338ca' },
+            Lane_Backend: { fill: '#eff6ff', stroke: '#1d4ed8' },
+            Lane_Spark: { fill: '#fff7ed', stroke: '#ea580c' },
+            Lane_Modelos: { fill: '#f1f5f9', stroke: '#334155' }
+          };
 
-            Object.entries(lanePalette).forEach(([elementId, colors]) => {
-              const element = elementRegistry.get(elementId);
-              if (element) {
-                modeling.setColor(element, colors);
-              }
+          const stageAssignments = {
+            login: [
+              'StartEvent_Inicio',
+              'Task_AcessarLogin',
+              'Task_ExibirLogin',
+              'Task_EnviarCredenciais',
+              'Task_AutenticarUsuario',
+              'Task_RedirecionarInicial',
+              'Task_ExibirDashboard',
+              'Task_SelecionarProjeto',
+              'ExclusiveGateway_NovoProjeto'
+            ],
+            onboardingEstilo: [
+              'Task_EscolherEstilo',
+              'ExclusiveGateway_Estilo',
+              'Task_ConfirmarEstilo',
+              'Task_UploadEstilo',
+              'Task_EnviarImagensEstilo',
+              'Task_CriarJobEstilo',
+              'Task_AcionarModeloExtracao',
+              'IntermediateThrowEvent_EstiloCriado'
+            ],
+            onboardingContexto: [
+              'Task_ContextualizarProjeto',
+              'Task_EnviarContexto',
+              'Task_ArmazenarContexto',
+              'Task_DefinirPaleta',
+              'Task_EnviarPaleta',
+              'Task_SalvarPaleta',
+              'Task_MarcarConfigurado',
+              'Task_DirecionarTelaPrincipal',
+              'Task_ApresentarInterfaceOnboarding'
+            ],
+            geracao: [
+              'Task_AbrirProjetoExistente',
+              'Task_ApresentarInterfaceDireta',
+              'ExclusiveGateway_ProntoGeracao',
+              'Task_EnviarPrompt',
+              'InclusiveGateway_TipoPrompt',
+              'Task_RelayPromptSpark',
+              'Task_RelayImagemPrompt',
+              'InclusiveGateway_UnirPrompt',
+              'Task_BuscarContextoProjeto',
+              'Task_PrepararDadosSpark',
+              'Task_ReceberBriefing',
+              'Task_GerarMasterPrompt',
+              'IntermediateThrowEvent_MasterPrompt',
+              'ExclusiveGateway_EscolhaModelo'
+            ],
+            execucao: [
+              'Task_SelecionarModeloImagem',
+              'Task_SelecionarModeloVideo',
+              'Task_AcionarModeloImagem',
+              'Task_AcionarModeloVideo',
+              'Task_ModeloImagem',
+              'Task_ModeloVideo',
+              'ExclusiveGateway_RetornoModelo',
+              'Task_SalvarResultado'
+            ],
+            iteracao: [
+              'Task_AtualizarVisualizador',
+              'Task_SelecionarMidia',
+              'Task_EnviarNovaInstrucao',
+              'Task_ReferenciarMidia',
+              'Task_ReformularMasterPrompt'
+            ],
+            finalizacao: ['Task_FinalizarProjeto', 'Task_RegistrarLogs', 'EndEvent_Fim']
+          };
+
+          const stagePalette = {
+            login: { fill: '#dbeafe', stroke: '#1d4ed8' },
+            onboardingEstilo: { fill: '#fef3c7', stroke: '#c2410c' },
+            onboardingContexto: { fill: '#fce7f3', stroke: '#be185d' },
+            geracao: { fill: '#ede9fe', stroke: '#5b21b6' },
+            execucao: { fill: '#e0f2fe', stroke: '#0369a1' },
+            iteracao: { fill: '#ffe4e6', stroke: '#be123c' },
+            finalizacao: { fill: '#dcfce7', stroke: '#15803d' }
+          };
+
+          let styleRules = `#canvas svg text { font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif; fill: #0f172a; font-weight: 600; }
+#canvas svg .djs-lane-label text { fill: #1f2937; font-size: 14px; letter-spacing: 0.02em; }
+#canvas svg .djs-connection path { stroke: #1f2937; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#canvas svg .marker-arrow path, #canvas svg .djs-marker path { fill: #1f2937; }
+#canvas svg .djs-shape:not(.djs-connection) .djs-visual > rect { rx: 14; ry: 14; }
+#canvas svg .djs-shape .djs-visual > text { fill: #0f172a; }
+`;
+
+          Object.entries(lanePalette).forEach(([laneId, colors]) => {
+            styleRules += `#canvas svg g[data-element-id="${laneId}"] .djs-visual > rect { fill: ${colors.fill}; stroke: ${colors.stroke}; stroke-width: 3; opacity: 0.92; }
+`;
+          });
+
+          const baseSelector = (id) =>
+            `#canvas svg g[data-element-id="${id}"] .djs-visual > rect, #canvas svg g[data-element-id="${id}"] .djs-visual > path, #canvas svg g[data-element-id="${id}"] .djs-visual > polygon, #canvas svg g[data-element-id="${id}"] .djs-visual > circle`;
+
+          Object.entries(stageAssignments).forEach(([stage, elements]) => {
+            const palette = stagePalette[stage];
+            elements.forEach((id) => {
+              styleRules += `${baseSelector(id)} { fill: ${palette.fill}; stroke: ${palette.stroke}; stroke-width: 2.8; }
+`;
             });
+          });
 
-            const applyStageColor = (elementIds, colors) => {
-              elementIds.forEach((id) => {
-                const target = elementRegistry.get(id);
-                if (target) {
-                  modeling.setColor(target, colors);
-                }
-              });
-            };
+          styleRules += `#canvas svg g[data-element-id="BoundaryEvent_ErroEstilo"] .djs-visual > circle { fill: #fee2e2; stroke: #b91c1c; stroke-width: 3; }
+#canvas svg g[data-element-id="Task_HandleError"] .djs-visual > rect { fill: #fee2e2; stroke: #b91c1c; stroke-width: 2.8; }
+`;
 
-            const stagePalette = {
-              login: { fill: '#dbeafe', stroke: '#1d4ed8' },
-              onboardingEstilo: { fill: '#fef3c7', stroke: '#c2410c' },
-              onboardingContexto: { fill: '#fce7f3', stroke: '#be185d' },
-              geracao: { fill: '#ede9fe', stroke: '#5b21b6' },
-              execucao: { fill: '#e0f2fe', stroke: '#0369a1' },
-              iteracao: { fill: '#ffe4e6', stroke: '#be123c' },
-              finalizacao: { fill: '#dcfce7', stroke: '#15803d' }
-            };
-
-            applyStageColor(
-              [
-                'StartEvent_Inicio',
-                'Task_AcessarLogin',
-                'Task_ExibirLogin',
-                'Task_EnviarCredenciais',
-                'Task_AutenticarUsuario',
-                'Task_RedirecionarInicial',
-                'Task_ExibirDashboard',
-                'Task_SelecionarProjeto',
-                'ExclusiveGateway_NovoProjeto'
-              ],
-              stagePalette.login
-            );
-
-            applyStageColor(
-              [
-                'Task_EscolherEstilo',
-                'ExclusiveGateway_Estilo',
-                'Task_ConfirmarEstilo',
-                'Task_UploadEstilo',
-                'Task_EnviarImagensEstilo',
-                'Task_CriarJobEstilo',
-                'Task_AcionarModeloExtracao',
-                'IntermediateThrowEvent_EstiloCriado'
-              ],
-              stagePalette.onboardingEstilo
-            );
-
-            applyStageColor(
-              ['BoundaryEvent_ErroEstilo', 'Task_HandleError'],
-              { fill: '#fee2e2', stroke: '#b91c1c' }
-            );
-
-            applyStageColor(
-              [
-                'Task_ContextualizarProjeto',
-                'Task_EnviarContexto',
-                'Task_ArmazenarContexto',
-                'Task_DefinirPaleta',
-                'Task_EnviarPaleta',
-                'Task_SalvarPaleta',
-                'Task_MarcarConfigurado',
-                'Task_DirecionarTelaPrincipal',
-                'Task_ApresentarInterfaceOnboarding'
-              ],
-              stagePalette.onboardingContexto
-            );
-
-            applyStageColor(
-              [
-                'Task_AbrirProjetoExistente',
-                'Task_ApresentarInterfaceDireta',
-                'ExclusiveGateway_ProntoGeracao',
-                'Task_EnviarPrompt',
-                'InclusiveGateway_TipoPrompt',
-                'Task_RelayPromptSpark',
-                'Task_RelayImagemPrompt',
-                'InclusiveGateway_UnirPrompt',
-                'Task_BuscarContextoProjeto',
-                'Task_PrepararDadosSpark',
-                'Task_ReceberBriefing',
-                'Task_GerarMasterPrompt',
-                'IntermediateThrowEvent_MasterPrompt',
-                'ExclusiveGateway_EscolhaModelo'
-              ],
-              stagePalette.geracao
-            );
-
-            applyStageColor(
-              [
-                'Task_SelecionarModeloImagem',
-                'Task_SelecionarModeloVideo',
-                'Task_AcionarModeloImagem',
-                'Task_AcionarModeloVideo',
-                'Task_ModeloImagem',
-                'Task_ModeloVideo',
-                'ExclusiveGateway_RetornoModelo',
-                'Task_SalvarResultado'
-              ],
-              stagePalette.execucao
-            );
-
-            applyStageColor(
-              [
-                'Task_AtualizarVisualizador',
-                'Task_SelecionarMidia',
-                'Task_EnviarNovaInstrucao',
-                'Task_ReferenciarMidia',
-                'Task_ReformularMasterPrompt'
-              ],
-              stagePalette.iteracao
-            );
-
-            applyStageColor(
-              ['Task_FinalizarProjeto', 'Task_RegistrarLogs', 'EndEvent_Fim'],
-              stagePalette.finalizacao
-            );
-          }
+          const styleElement = document.createElement('style');
+          styleElement.textContent = styleRules;
+          document.head.appendChild(styleElement);
 
           if (overlays) {
             const createBadge = (label, phase) => {
