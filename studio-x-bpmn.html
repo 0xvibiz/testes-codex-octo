@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🧠 Criação e Geração de Conteúdo – Plataforma Studio X</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f1f5f9;
+        color: #0f172a;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: clamp(1.5rem, 4vw, 4rem);
+        background: radial-gradient(circle at top, #e0f2fe 0%, #f8fafc 45%, #e2e8f0 100%);
+      }
+
+      main {
+        width: min(1180px, 96vw);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 28px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        padding: clamp(1.75rem, 3vw, 2.75rem);
+        box-shadow: 0 30px 70px -40px rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(18px);
+      }
+
+      header {
+        margin-bottom: 1.75rem;
+      }
+
+      h1 {
+        font-size: clamp(1.9rem, 2.8vw, 2.55rem);
+        margin: 0 0 0.5rem;
+        color: #1d4ed8;
+      }
+
+      .subtitle {
+        margin: 0;
+        color: #334155;
+        font-size: 1.05rem;
+      }
+
+      section.legend {
+        margin-bottom: 1.5rem;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 1rem 1.5rem;
+        background: rgba(241, 245, 249, 0.6);
+      }
+
+      section.legend h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #475569;
+      }
+
+      .legend__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.5rem 1.25rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .legend__item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .legend__swatch {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+      }
+
+      .legend__swatch--user {
+        background: #def7ec;
+        border-color: #0d9488;
+      }
+
+      .legend__swatch--frontend {
+        background: #ede9fe;
+        border-color: #7c3aed;
+      }
+
+      .legend__swatch--backend {
+        background: #dbeafe;
+        border-color: #2563eb;
+      }
+
+      .legend__swatch--spark {
+        background: #fef3c7;
+        border-color: #d97706;
+      }
+
+      .legend__swatch--modelos {
+        background: #e2e8f0;
+        border-color: #475569;
+      }
+
+      #canvas {
+        height: clamp(720px, 75vh, 860px);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.18);
+      }
+
+      #canvas .djs-container {
+        background: #ffffff;
+        border-radius: 16px;
+      }
+
+      footer {
+        margin-top: 1.75rem;
+        font-size: 0.95rem;
+        color: #475569;
+        text-align: center;
+      }
+
+      a {
+        color: #2563eb;
+      }
+
+      .phase-badge {
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 0 10px 20px -12px rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        background: #e2e8f0;
+        color: #0f172a;
+        white-space: nowrap;
+      }
+
+      .phase-badge[data-phase="login"] {
+        background: #dbeafe;
+        color: #1e3a8a;
+      }
+
+      .phase-badge[data-phase="onboarding-estilo"] {
+        background: #fef3c7;
+        color: #c2410c;
+      }
+
+      .phase-badge[data-phase="onboarding-contexto"] {
+        background: #fce7f3;
+        color: #9d174d;
+      }
+
+      .phase-badge[data-phase="geracao"] {
+        background: #ede9fe;
+        color: #5b21b6;
+      }
+
+      .phase-badge[data-phase="iteracao"] {
+        background: #ffe4e6;
+        color: #be123c;
+      }
+
+      .phase-badge[data-phase="finalizacao"] {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      @media (max-width: 980px) {
+        #canvas {
+          height: 75vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>🧠 Criação e Geração de Conteúdo – Plataforma Studio X</h1>
+        <p class="subtitle">Fluxo orquestrado ponta a ponta – do login à entrega final – detalhando interações entre Usuário, Studio X, Backend, Spark e modelos de IA.</p>
+      </header>
+      <section class="legend" aria-label="Participantes do processo">
+        <h2>Participantes e responsabilidades</h2>
+        <ul class="legend__list">
+          <li class="legend__item"><span class="legend__swatch legend__swatch--user" aria-hidden="true"></span>Usuário</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--frontend" aria-hidden="true"></span>Frontend Studio X</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--backend" aria-hidden="true"></span>Backend</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--spark" aria-hidden="true"></span>Spark</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--modelos" aria-hidden="true"></span>Modelos AI</li>
+        </ul>
+      </section>
+      <div id="canvas" role="presentation" aria-label="Diagrama BPMN renderizado"></div>
+      <footer>Construído com <a href="https://bpmn.io" target="_blank" rel="noreferrer">bpmn.io</a> – arraste para navegar e use o scroll para ampliar.</footer>
+    </main>
+
+    <script src="https://unpkg.com/bpmn-js@10.3.0/dist/bpmn-navigated-viewer.production.min.js" crossorigin="anonymous"></script>
+    <script>
+      const diagramXML = `<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_StudioX" targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:process id="Process_StudioX" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_StudioX">
+      <bpmn:lane id="Lane_User" name="Usuário">
+        <bpmn:flowNodeRef>StartEvent_Inicio</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AcessarLogin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SelecionarProjeto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_NovoProjeto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EscolherEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_Estilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_UploadEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ContextualizarProjeto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DefinirPaleta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InclusiveGateway_TipoPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SelecionarMidia</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarNovaInstrucao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_FinalizarProjeto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Fim</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Frontend" name="Frontend Studio X">
+        <bpmn:flowNodeRef>Task_ExibirLogin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarCredenciais</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RedirecionarInicial</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ExibirDashboard</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AbrirProjetoExistente</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ApresentarInterfaceDireta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ConfirmarEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarImagensEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarContexto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EnviarPaleta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DirecionarTelaPrincipal</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ApresentarInterfaceOnboarding</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_ProntoGeracao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RelayPromptSpark</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RelayImagemPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AtualizarVisualizador</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ReferenciarMidia</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Backend" name="Backend">
+        <bpmn:flowNodeRef>Task_AutenticarUsuario</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_CriarJobEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AcionarModeloExtracao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_ErroEstilo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_HandleError</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_EstiloCriado</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ArmazenarContexto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SalvarPaleta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_MarcarConfigurado</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>InclusiveGateway_UnirPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_BuscarContextoProjeto</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PrepararDadosSpark</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AcionarModeloImagem</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AcionarModeloVideo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_RetornoModelo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SalvarResultado</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistrarLogs</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Spark" name="Spark">
+        <bpmn:flowNodeRef>Task_ReceberBriefing</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_GerarMasterPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>IntermediateThrowEvent_MasterPrompt</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_EscolhaModelo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SelecionarModeloImagem</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_SelecionarModeloVideo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ReformularMasterPrompt</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Modelos" name="Modelos AI">
+        <bpmn:flowNodeRef>Task_ModeloImagem</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ModeloVideo</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_Inicio" name="Início" />
+    <bpmn:task id="Task_AcessarLogin" name="Acessar tela de login" />
+    <bpmn:task id="Task_ExibirLogin" name="Exibir opções Entrar/Cadastrar" />
+    <bpmn:task id="Task_EnviarCredenciais" name="Enviar dados ao Backend" />
+    <bpmn:task id="Task_AutenticarUsuario" name="Autenticar usuário e retornar token" />
+    <bpmn:task id="Task_RedirecionarInicial" name="Redirecionar para tela inicial" />
+    <bpmn:task id="Task_ExibirDashboard" name="Exibir projetos e estilos salvos" />
+    <bpmn:task id="Task_SelecionarProjeto" name="Escolher ação na tela inicial" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_NovoProjeto" name="Criar novo projeto?" />
+    <bpmn:task id="Task_AbrirProjetoExistente" name="Abrir projeto existente" />
+    <bpmn:task id="Task_ApresentarInterfaceDireta" name="Abrir tela principal (Spark / Visualizador / Histórico)" />
+    <bpmn:task id="Task_EscolherEstilo" name="Selecionar ou criar estilo" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_Estilo" name="Criar novo estilo?" />
+    <bpmn:task id="Task_ConfirmarEstilo" name="Confirmar estilo existente" />
+    <bpmn:task id="Task_UploadEstilo" name="Enviar 1-10 imagens de referência" />
+    <bpmn:task id="Task_EnviarImagensEstilo" name="Encaminhar upload para Backend" />
+    <bpmn:task id="Task_CriarJobEstilo" name="Criar job de extração" />
+    <bpmn:task id="Task_AcionarModeloExtracao" name="Acionar modelo de extração e salvar JSON" />
+    <bpmn:boundaryEvent id="BoundaryEvent_ErroEstilo" name="Erro ao criar estilo" attachedToRef="Task_AcionarModeloExtracao" cancelActivity="true">
+      <bpmn:errorEventDefinition errorRef="Error_Geracao" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Task_HandleError" name="Registrar erro e status" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_EstiloCriado" name="Estilo criado (Studio X confirma)" />
+    <bpmn:task id="Task_ContextualizarProjeto" name="Contextualizar projeto" />
+    <bpmn:task id="Task_EnviarContexto" name="Enviar contexto ao Backend" />
+    <bpmn:task id="Task_ArmazenarContexto" name="Processar e salvar contexto" />
+    <bpmn:task id="Task_DefinirPaleta" name="Definir paleta de cores" />
+    <bpmn:task id="Task_EnviarPaleta" name="Enviar paleta" />
+    <bpmn:task id="Task_SalvarPaleta" name="Salvar paleta no BD" />
+    <bpmn:task id="Task_MarcarConfigurado" name="Marcar projeto como configurado" />
+    <bpmn:task id="Task_DirecionarTelaPrincipal" name="Direcionar à tela principal" />
+    <bpmn:task id="Task_ApresentarInterfaceOnboarding" name="Apresentar layout principal (Spark / Visualizador / Histórico)" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_ProntoGeracao" name="Pronto para gerar?" />
+    <bpmn:task id="Task_EnviarPrompt" name="Enviar prompt para Spark" />
+    <bpmn:inclusiveGateway id="InclusiveGateway_TipoPrompt" name="Texto, imagem e/ou frames" />
+    <bpmn:task id="Task_RelayPromptSpark" name="Encaminhar prompt textual" />
+    <bpmn:task id="Task_RelayImagemPrompt" name="Encaminhar prompt visual / frames" />
+    <bpmn:inclusiveGateway id="InclusiveGateway_UnirPrompt" name="Consolidar prompt" />
+    <bpmn:task id="Task_BuscarContextoProjeto" name="Validar projeto e buscar estilo/contexto/paleta" />
+    <bpmn:task id="Task_PrepararDadosSpark" name="Consolidar briefing completo ao Spark" />
+    <bpmn:task id="Task_ReceberBriefing" name="Receber prompt + estilo + paleta" />
+    <bpmn:task id="Task_GerarMasterPrompt" name="Gerar master prompt consolidado" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_MasterPrompt" name="Master prompt gerado" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_EscolhaModelo" name="Decidir pipeline (imagem ou vídeo)" />
+    <bpmn:task id="Task_SelecionarModeloImagem" name="Selecionar pipeline de imagem" />
+    <bpmn:task id="Task_SelecionarModeloVideo" name="Selecionar pipeline de vídeo/animação" />
+    <bpmn:task id="Task_AcionarModeloImagem" name="Chamar modelo de imagem e aguardar retorno" />
+    <bpmn:task id="Task_AcionarModeloVideo" name="Chamar modelo de vídeo e aguardar retorno" />
+    <bpmn:task id="Task_ModeloImagem" name="Modelo de imagem gera mídia" />
+    <bpmn:task id="Task_ModeloVideo" name="Modelo de vídeo gera mídia" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_RetornoModelo" name="Retorno do modelo AI" />
+    <bpmn:task id="Task_SalvarResultado" name="Salvar resultado (link, metadados e contexto)" />
+    <bpmn:task id="Task_AtualizarVisualizador" name="Atualizar visualizador e painel histórico" />
+    <bpmn:task id="Task_SelecionarMidia" name="Selecionar mídia no painel" />
+    <bpmn:task id="Task_EnviarNovaInstrucao" name="Enviar nova instrução ou reexecutar prompt" />
+    <bpmn:task id="Task_ReferenciarMidia" name="Referenciar mídia ativa ao Spark" />
+    <bpmn:task id="Task_ReformularMasterPrompt" name="Reformular master prompt (inclui animação se solicitado)" />
+    <bpmn:task id="Task_FinalizarProjeto" name="Exportar / Arquivar / Criar novo projeto" />
+    <bpmn:task id="Task_RegistrarLogs" name="Registrar logs finais e status de geração" />
+    <bpmn:endEvent id="EndEvent_Fim" name="Projeto concluído" />
+    <bpmn:sequenceFlow id="Flow_Start_AcessarLogin" sourceRef="StartEvent_Inicio" targetRef="Task_AcessarLogin" />
+    <bpmn:sequenceFlow id="Flow_AcessarLogin_ExibirLogin" sourceRef="Task_AcessarLogin" targetRef="Task_ExibirLogin" />
+    <bpmn:sequenceFlow id="Flow_ExibirLogin_EnviarCredenciais" sourceRef="Task_ExibirLogin" targetRef="Task_EnviarCredenciais" />
+    <bpmn:sequenceFlow id="Flow_EnviarCredenciais_Autenticar" sourceRef="Task_EnviarCredenciais" targetRef="Task_AutenticarUsuario" />
+    <bpmn:sequenceFlow id="Flow_Autenticar_Redirecionar" sourceRef="Task_AutenticarUsuario" targetRef="Task_RedirecionarInicial" />
+    <bpmn:sequenceFlow id="Flow_Redirecionar_ExibirDashboard" sourceRef="Task_RedirecionarInicial" targetRef="Task_ExibirDashboard" />
+    <bpmn:sequenceFlow id="Flow_ExibirDashboard_SelecionarProjeto" sourceRef="Task_ExibirDashboard" targetRef="Task_SelecionarProjeto" />
+    <bpmn:sequenceFlow id="Flow_SelecionarProjeto_GatewayNovo" sourceRef="Task_SelecionarProjeto" targetRef="ExclusiveGateway_NovoProjeto" />
+    <bpmn:sequenceFlow id="Flow_GatewayNovo_AbrirProjeto" sourceRef="ExclusiveGateway_NovoProjeto" targetRef="Task_AbrirProjetoExistente" />
+    <bpmn:sequenceFlow id="Flow_GatewayNovo_EscolherEstilo" sourceRef="ExclusiveGateway_NovoProjeto" targetRef="Task_EscolherEstilo" />
+    <bpmn:sequenceFlow id="Flow_AbrirProjeto_InterfaceDireta" sourceRef="Task_AbrirProjetoExistente" targetRef="Task_ApresentarInterfaceDireta" />
+    <bpmn:sequenceFlow id="Flow_InterfaceDireta_ProntoGeracao" sourceRef="Task_ApresentarInterfaceDireta" targetRef="ExclusiveGateway_ProntoGeracao" />
+    <bpmn:sequenceFlow id="Flow_EscolherEstilo_GatewayEstilo" sourceRef="Task_EscolherEstilo" targetRef="ExclusiveGateway_Estilo" />
+    <bpmn:sequenceFlow id="Flow_GatewayEstilo_Confirmar" sourceRef="ExclusiveGateway_Estilo" targetRef="Task_ConfirmarEstilo" />
+    <bpmn:sequenceFlow id="Flow_GatewayEstilo_Upload" sourceRef="ExclusiveGateway_Estilo" targetRef="Task_UploadEstilo" />
+    <bpmn:sequenceFlow id="Flow_Confirmar_Contextualizar" sourceRef="Task_ConfirmarEstilo" targetRef="Task_ContextualizarProjeto" />
+    <bpmn:sequenceFlow id="Flow_Upload_EnviarImagens" sourceRef="Task_UploadEstilo" targetRef="Task_EnviarImagensEstilo" />
+    <bpmn:sequenceFlow id="Flow_EnviarImagens_CriarJob" sourceRef="Task_EnviarImagensEstilo" targetRef="Task_CriarJobEstilo" />
+    <bpmn:sequenceFlow id="Flow_CriarJob_AcionarExtracao" sourceRef="Task_CriarJobEstilo" targetRef="Task_AcionarModeloExtracao" />
+    <bpmn:sequenceFlow id="Flow_AcionarExtracao_EstiloCriado" sourceRef="Task_AcionarModeloExtracao" targetRef="IntermediateThrowEvent_EstiloCriado" />
+    <bpmn:sequenceFlow id="Flow_EstiloCriado_Contextualizar" sourceRef="IntermediateThrowEvent_EstiloCriado" targetRef="Task_ContextualizarProjeto" />
+    <bpmn:sequenceFlow id="Flow_ErroEstilo_Handle" sourceRef="BoundaryEvent_ErroEstilo" targetRef="Task_HandleError" />
+    <bpmn:sequenceFlow id="Flow_Handle_RetornarUpload" sourceRef="Task_HandleError" targetRef="Task_UploadEstilo" />
+    <bpmn:sequenceFlow id="Flow_Contextualizar_EnviarContexto" sourceRef="Task_ContextualizarProjeto" targetRef="Task_EnviarContexto" />
+    <bpmn:sequenceFlow id="Flow_EnviarContexto_Armazenar" sourceRef="Task_EnviarContexto" targetRef="Task_ArmazenarContexto" />
+    <bpmn:sequenceFlow id="Flow_Armazenar_DefinirPaleta" sourceRef="Task_ArmazenarContexto" targetRef="Task_DefinirPaleta" />
+    <bpmn:sequenceFlow id="Flow_DefinirPaleta_EnviarPaleta" sourceRef="Task_DefinirPaleta" targetRef="Task_EnviarPaleta" />
+    <bpmn:sequenceFlow id="Flow_EnviarPaleta_SalvarPaleta" sourceRef="Task_EnviarPaleta" targetRef="Task_SalvarPaleta" />
+    <bpmn:sequenceFlow id="Flow_SalvarPaleta_MarcarConfigurado" sourceRef="Task_SalvarPaleta" targetRef="Task_MarcarConfigurado" />
+    <bpmn:sequenceFlow id="Flow_MarcarConfigurado_Direcionar" sourceRef="Task_MarcarConfigurado" targetRef="Task_DirecionarTelaPrincipal" />
+    <bpmn:sequenceFlow id="Flow_Direcionar_ApresentarInterface" sourceRef="Task_DirecionarTelaPrincipal" targetRef="Task_ApresentarInterfaceOnboarding" />
+    <bpmn:sequenceFlow id="Flow_InterfaceOnboarding_ProntoGeracao" sourceRef="Task_ApresentarInterfaceOnboarding" targetRef="ExclusiveGateway_ProntoGeracao" />
+    <bpmn:sequenceFlow id="Flow_ProntoGeracao_EnviarPrompt" sourceRef="ExclusiveGateway_ProntoGeracao" targetRef="Task_EnviarPrompt" />
+    <bpmn:sequenceFlow id="Flow_EnviarPrompt_TipoPrompt" sourceRef="Task_EnviarPrompt" targetRef="InclusiveGateway_TipoPrompt" />
+    <bpmn:sequenceFlow id="Flow_TipoPrompt_Texto" sourceRef="InclusiveGateway_TipoPrompt" targetRef="Task_RelayPromptSpark" />
+    <bpmn:sequenceFlow id="Flow_TipoPrompt_Imagem" sourceRef="InclusiveGateway_TipoPrompt" targetRef="Task_RelayImagemPrompt" />
+    <bpmn:sequenceFlow id="Flow_Texto_UnirPrompt" sourceRef="Task_RelayPromptSpark" targetRef="InclusiveGateway_UnirPrompt" />
+    <bpmn:sequenceFlow id="Flow_Imagem_UnirPrompt" sourceRef="Task_RelayImagemPrompt" targetRef="InclusiveGateway_UnirPrompt" />
+    <bpmn:sequenceFlow id="Flow_UnirPrompt_BuscarContexto" sourceRef="InclusiveGateway_UnirPrompt" targetRef="Task_BuscarContextoProjeto" />
+    <bpmn:sequenceFlow id="Flow_BuscarContexto_Preparar" sourceRef="Task_BuscarContextoProjeto" targetRef="Task_PrepararDadosSpark" />
+    <bpmn:sequenceFlow id="Flow_Preparar_ReceberBriefing" sourceRef="Task_PrepararDadosSpark" targetRef="Task_ReceberBriefing" />
+    <bpmn:sequenceFlow id="Flow_ReceberBriefing_GerarMaster" sourceRef="Task_ReceberBriefing" targetRef="Task_GerarMasterPrompt" />
+    <bpmn:sequenceFlow id="Flow_GerarMaster_MasterEvent" sourceRef="Task_GerarMasterPrompt" targetRef="IntermediateThrowEvent_MasterPrompt" />
+    <bpmn:sequenceFlow id="Flow_MasterEvent_EscolhaModelo" sourceRef="IntermediateThrowEvent_MasterPrompt" targetRef="ExclusiveGateway_EscolhaModelo" />
+    <bpmn:sequenceFlow id="Flow_EscolhaModelo_Imagem" sourceRef="ExclusiveGateway_EscolhaModelo" targetRef="Task_SelecionarModeloImagem" />
+    <bpmn:sequenceFlow id="Flow_EscolhaModelo_Video" sourceRef="ExclusiveGateway_EscolhaModelo" targetRef="Task_SelecionarModeloVideo" />
+    <bpmn:sequenceFlow id="Flow_ModeloImagem_AcionarImagem" sourceRef="Task_SelecionarModeloImagem" targetRef="Task_AcionarModeloImagem" />
+    <bpmn:sequenceFlow id="Flow_ModeloVideo_AcionarVideo" sourceRef="Task_SelecionarModeloVideo" targetRef="Task_AcionarModeloVideo" />
+    <bpmn:sequenceFlow id="Flow_AcionarImagem_ModeloImagem" sourceRef="Task_AcionarModeloImagem" targetRef="Task_ModeloImagem" />
+    <bpmn:sequenceFlow id="Flow_AcionarVideo_ModeloVideo" sourceRef="Task_AcionarModeloVideo" targetRef="Task_ModeloVideo" />
+    <bpmn:sequenceFlow id="Flow_ModeloImagem_Retorno" sourceRef="Task_ModeloImagem" targetRef="ExclusiveGateway_RetornoModelo" />
+    <bpmn:sequenceFlow id="Flow_ModeloVideo_Retorno" sourceRef="Task_ModeloVideo" targetRef="ExclusiveGateway_RetornoModelo" />
+    <bpmn:sequenceFlow id="Flow_Retorno_SalvarResultado" sourceRef="ExclusiveGateway_RetornoModelo" targetRef="Task_SalvarResultado" />
+    <bpmn:sequenceFlow id="Flow_SalvarResultado_AtualizarVisual" sourceRef="Task_SalvarResultado" targetRef="Task_AtualizarVisualizador" />
+    <bpmn:sequenceFlow id="Flow_AtualizarVisual_SelecionarMidia" sourceRef="Task_AtualizarVisualizador" targetRef="Task_SelecionarMidia" />
+    <bpmn:sequenceFlow id="Flow_AtualizarVisual_Finalizar" sourceRef="Task_AtualizarVisualizador" targetRef="Task_FinalizarProjeto" />
+    <bpmn:sequenceFlow id="Flow_SelecionarMidia_EnviarNovaInstrucao" sourceRef="Task_SelecionarMidia" targetRef="Task_EnviarNovaInstrucao" />
+    <bpmn:sequenceFlow id="Flow_EnviarNovaInstrucao_ReferenciarMidia" sourceRef="Task_EnviarNovaInstrucao" targetRef="Task_ReferenciarMidia" />
+    <bpmn:sequenceFlow id="Flow_ReferenciarMidia_ReformularMaster" sourceRef="Task_ReferenciarMidia" targetRef="Task_ReformularMasterPrompt" />
+    <bpmn:sequenceFlow id="Flow_ReformularMaster_EscolhaModelo" sourceRef="Task_ReformularMasterPrompt" targetRef="ExclusiveGateway_EscolhaModelo" />
+    <bpmn:sequenceFlow id="Flow_Finalizar_RegistrarLogs" sourceRef="Task_FinalizarProjeto" targetRef="Task_RegistrarLogs" />
+    <bpmn:sequenceFlow id="Flow_RegistrarLogs_End" sourceRef="Task_RegistrarLogs" targetRef="EndEvent_Fim" />
+  </bpmn:process>
+  <bpmn:error id="Error_Geracao" name="Falha de modelo" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_StudioX">
+    <bpmndi:BPMNPlane id="BPMNPlane_StudioX" bpmnElement="Process_StudioX">
+      <bpmndi:BPMNShape id="Shape_Lane_User" bpmnElement="Lane_User">
+        <dc:Bounds x="150" y="80" width="6400" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Frontend" bpmnElement="Lane_Frontend">
+        <dc:Bounds x="150" y="220" width="6400" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Backend" bpmnElement="Lane_Backend">
+        <dc:Bounds x="150" y="380" width="6400" height="180" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Spark" bpmnElement="Lane_Spark">
+        <dc:Bounds x="150" y="560" width="6400" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Modelos" bpmnElement="Lane_Modelos">
+        <dc:Bounds x="150" y="720" width="6400" height="140" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_StartEvent_Inicio" bpmnElement="StartEvent_Inicio">
+        <dc:Bounds x="220" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AcessarLogin" bpmnElement="Task_AcessarLogin">
+        <dc:Bounds x="340" y="120" width="150" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ExibirLogin" bpmnElement="Task_ExibirLogin">
+        <dc:Bounds x="520" y="270" width="160" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarCredenciais" bpmnElement="Task_EnviarCredenciais">
+        <dc:Bounds x="700" y="270" width="160" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AutenticarUsuario" bpmnElement="Task_AutenticarUsuario">
+        <dc:Bounds x="880" y="440" width="190" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RedirecionarInicial" bpmnElement="Task_RedirecionarInicial">
+        <dc:Bounds x="1080" y="270" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ExibirDashboard" bpmnElement="Task_ExibirDashboard">
+        <dc:Bounds x="1280" y="270" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SelecionarProjeto" bpmnElement="Task_SelecionarProjeto">
+        <dc:Bounds x="1280" y="120" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway_NovoProjeto" bpmnElement="ExclusiveGateway_NovoProjeto">
+        <dc:Bounds x="1500" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AbrirProjetoExistente" bpmnElement="Task_AbrirProjetoExistente">
+        <dc:Bounds x="1680" y="270" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ApresentarInterfaceDireta" bpmnElement="Task_ApresentarInterfaceDireta">
+        <dc:Bounds x="1880" y="270" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EscolherEstilo" bpmnElement="Task_EscolherEstilo">
+        <dc:Bounds x="1680" y="120" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway_Estilo" bpmnElement="ExclusiveGateway_Estilo">
+        <dc:Bounds x="1900" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ConfirmarEstilo" bpmnElement="Task_ConfirmarEstilo">
+        <dc:Bounds x="2080" y="270" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_UploadEstilo" bpmnElement="Task_UploadEstilo">
+        <dc:Bounds x="2080" y="120" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarImagensEstilo" bpmnElement="Task_EnviarImagensEstilo">
+        <dc:Bounds x="2280" y="270" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_CriarJobEstilo" bpmnElement="Task_CriarJobEstilo">
+        <dc:Bounds x="2280" y="440" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AcionarModeloExtracao" bpmnElement="Task_AcionarModeloExtracao">
+        <dc:Bounds x="2480" y="440" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_BoundaryEvent_ErroEstilo" bpmnElement="BoundaryEvent_ErroEstilo">
+        <dc:Bounds x="2658" y="482" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_HandleError" bpmnElement="Task_HandleError">
+        <dc:Bounds x="2700" y="520" width="150" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IntermediateThrowEvent_EstiloCriado" bpmnElement="IntermediateThrowEvent_EstiloCriado">
+        <dc:Bounds x="2700" y="446" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ContextualizarProjeto" bpmnElement="Task_ContextualizarProjeto">
+        <dc:Bounds x="2500" y="120" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarContexto" bpmnElement="Task_EnviarContexto">
+        <dc:Bounds x="2480" y="270" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ArmazenarContexto" bpmnElement="Task_ArmazenarContexto">
+        <dc:Bounds x="2680" y="440" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_DefinirPaleta" bpmnElement="Task_DefinirPaleta">
+        <dc:Bounds x="2700" y="120" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarPaleta" bpmnElement="Task_EnviarPaleta">
+        <dc:Bounds x="2680" y="270" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SalvarPaleta" bpmnElement="Task_SalvarPaleta">
+        <dc:Bounds x="2880" y="440" width="180" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_MarcarConfigurado" bpmnElement="Task_MarcarConfigurado">
+        <dc:Bounds x="3080" y="440" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_DirecionarTelaPrincipal" bpmnElement="Task_DirecionarTelaPrincipal">
+        <dc:Bounds x="2880" y="270" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ApresentarInterfaceOnboarding" bpmnElement="Task_ApresentarInterfaceOnboarding">
+        <dc:Bounds x="3080" y="270" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway_ProntoGeracao" bpmnElement="ExclusiveGateway_ProntoGeracao">
+        <dc:Bounds x="3320" y="275" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarPrompt" bpmnElement="Task_EnviarPrompt">
+        <dc:Bounds x="3320" y="120" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InclusiveGateway_TipoPrompt" bpmnElement="InclusiveGateway_TipoPrompt">
+        <dc:Bounds x="3540" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RelayPromptSpark" bpmnElement="Task_RelayPromptSpark">
+        <dc:Bounds x="3520" y="270" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RelayImagemPrompt" bpmnElement="Task_RelayImagemPrompt">
+        <dc:Bounds x="3720" y="270" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_InclusiveGateway_UnirPrompt" bpmnElement="InclusiveGateway_UnirPrompt">
+        <dc:Bounds x="3740" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_BuscarContextoProjeto" bpmnElement="Task_BuscarContextoProjeto">
+        <dc:Bounds x="3940" y="440" width="240" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_PrepararDadosSpark" bpmnElement="Task_PrepararDadosSpark">
+        <dc:Bounds x="4180" y="440" width="260" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ReceberBriefing" bpmnElement="Task_ReceberBriefing">
+        <dc:Bounds x="4180" y="610" width="260" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_GerarMasterPrompt" bpmnElement="Task_GerarMasterPrompt">
+        <dc:Bounds x="4420" y="610" width="210" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_IntermediateThrowEvent_MasterPrompt" bpmnElement="IntermediateThrowEvent_MasterPrompt">
+        <dc:Bounds x="4660" y="622" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway_EscolhaModelo" bpmnElement="ExclusiveGateway_EscolhaModelo">
+        <dc:Bounds x="4740" y="615" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SelecionarModeloImagem" bpmnElement="Task_SelecionarModeloImagem">
+        <dc:Bounds x="4920" y="580" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SelecionarModeloVideo" bpmnElement="Task_SelecionarModeloVideo">
+        <dc:Bounds x="4920" y="660" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AcionarModeloImagem" bpmnElement="Task_AcionarModeloImagem">
+        <dc:Bounds x="4920" y="440" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AcionarModeloVideo" bpmnElement="Task_AcionarModeloVideo">
+        <dc:Bounds x="5120" y="440" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ModeloImagem" bpmnElement="Task_ModeloImagem">
+        <dc:Bounds x="5120" y="760" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ModeloVideo" bpmnElement="Task_ModeloVideo">
+        <dc:Bounds x="5120" y="840" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ExclusiveGateway_RetornoModelo" bpmnElement="ExclusiveGateway_RetornoModelo">
+        <dc:Bounds x="5380" y="445" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SalvarResultado" bpmnElement="Task_SalvarResultado">
+        <dc:Bounds x="5540" y="440" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_AtualizarVisualizador" bpmnElement="Task_AtualizarVisualizador">
+        <dc:Bounds x="5540" y="270" width="260" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_SelecionarMidia" bpmnElement="Task_SelecionarMidia">
+        <dc:Bounds x="5540" y="120" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_EnviarNovaInstrucao" bpmnElement="Task_EnviarNovaInstrucao">
+        <dc:Bounds x="5780" y="120" width="200" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ReferenciarMidia" bpmnElement="Task_ReferenciarMidia">
+        <dc:Bounds x="5780" y="270" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_ReformularMasterPrompt" bpmnElement="Task_ReformularMasterPrompt">
+        <dc:Bounds x="5780" y="610" width="230" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_FinalizarProjeto" bpmnElement="Task_FinalizarProjeto">
+        <dc:Bounds x="6020" y="120" width="260" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Task_RegistrarLogs" bpmnElement="Task_RegistrarLogs">
+        <dc:Bounds x="6020" y="440" width="220" height="60" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_EndEvent_Fim" bpmnElement="EndEvent_Fim">
+        <dc:Bounds x="6320" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_Start_AcessarLogin" bpmnElement="Flow_Start_AcessarLogin">
+        <di:waypoint x="238.0" y="150.0" />
+        <di:waypoint x="415.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AcessarLogin_ExibirLogin" bpmnElement="Flow_AcessarLogin_ExibirLogin">
+        <di:waypoint x="415.0" y="150.0" />
+        <di:waypoint x="600.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ExibirLogin_EnviarCredenciais" bpmnElement="Flow_ExibirLogin_EnviarCredenciais">
+        <di:waypoint x="600.0" y="300.0" />
+        <di:waypoint x="780.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarCredenciais_Autenticar" bpmnElement="Flow_EnviarCredenciais_Autenticar">
+        <di:waypoint x="780.0" y="300.0" />
+        <di:waypoint x="975.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Autenticar_Redirecionar" bpmnElement="Flow_Autenticar_Redirecionar">
+        <di:waypoint x="975.0" y="470.0" />
+        <di:waypoint x="1170.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Redirecionar_ExibirDashboard" bpmnElement="Flow_Redirecionar_ExibirDashboard">
+        <di:waypoint x="1170.0" y="300.0" />
+        <di:waypoint x="1380.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ExibirDashboard_SelecionarProjeto" bpmnElement="Flow_ExibirDashboard_SelecionarProjeto">
+        <di:waypoint x="1380.0" y="300.0" />
+        <di:waypoint x="1380.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SelecionarProjeto_GatewayNovo" bpmnElement="Flow_SelecionarProjeto_GatewayNovo">
+        <di:waypoint x="1380.0" y="150.0" />
+        <di:waypoint x="1525.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_GatewayNovo_AbrirProjeto" bpmnElement="Flow_GatewayNovo_AbrirProjeto">
+        <di:waypoint x="1525.0" y="150.0" />
+        <di:waypoint x="1770.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_GatewayNovo_EscolherEstilo" bpmnElement="Flow_GatewayNovo_EscolherEstilo">
+        <di:waypoint x="1525.0" y="150.0" />
+        <di:waypoint x="1780.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AbrirProjeto_InterfaceDireta" bpmnElement="Flow_AbrirProjeto_InterfaceDireta">
+        <di:waypoint x="1770.0" y="300.0" />
+        <di:waypoint x="1985.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_InterfaceDireta_ProntoGeracao" bpmnElement="Flow_InterfaceDireta_ProntoGeracao">
+        <di:waypoint x="1985.0" y="300.0" />
+        <di:waypoint x="3345.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EscolherEstilo_GatewayEstilo" bpmnElement="Flow_EscolherEstilo_GatewayEstilo">
+        <di:waypoint x="1780.0" y="150.0" />
+        <di:waypoint x="1925.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_GatewayEstilo_Confirmar" bpmnElement="Flow_GatewayEstilo_Confirmar">
+        <di:waypoint x="1925.0" y="150.0" />
+        <di:waypoint x="2180.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_GatewayEstilo_Upload" bpmnElement="Flow_GatewayEstilo_Upload">
+        <di:waypoint x="1925.0" y="150.0" />
+        <di:waypoint x="2195.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Confirmar_Contextualizar" bpmnElement="Flow_Confirmar_Contextualizar">
+        <di:waypoint x="2180.0" y="300.0" />
+        <di:waypoint x="2605.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Upload_EnviarImagens" bpmnElement="Flow_Upload_EnviarImagens">
+        <di:waypoint x="2195.0" y="150.0" />
+        <di:waypoint x="2390.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarImagens_CriarJob" bpmnElement="Flow_EnviarImagens_CriarJob">
+        <di:waypoint x="2390.0" y="300.0" />
+        <di:waypoint x="2370.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_CriarJob_AcionarExtracao" bpmnElement="Flow_CriarJob_AcionarExtracao">
+        <di:waypoint x="2370.0" y="470.0" />
+        <di:waypoint x="2580.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AcionarExtracao_EstiloCriado" bpmnElement="Flow_AcionarExtracao_EstiloCriado">
+        <di:waypoint x="2580.0" y="470.0" />
+        <di:waypoint x="2718.0" y="464.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EstiloCriado_Contextualizar" bpmnElement="Flow_EstiloCriado_Contextualizar">
+        <di:waypoint x="2718.0" y="464.0" />
+        <di:waypoint x="2605.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ErroEstilo_Handle" bpmnElement="Flow_ErroEstilo_Handle">
+        <di:waypoint x="2676.0" y="500.0" />
+        <di:waypoint x="2775.0" y="550.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Handle_RetornarUpload" bpmnElement="Flow_Handle_RetornarUpload">
+        <di:waypoint x="2775.0" y="550.0" />
+        <di:waypoint x="2195.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Contextualizar_EnviarContexto" bpmnElement="Flow_Contextualizar_EnviarContexto">
+        <di:waypoint x="2605.0" y="150.0" />
+        <di:waypoint x="2585.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarContexto_Armazenar" bpmnElement="Flow_EnviarContexto_Armazenar">
+        <di:waypoint x="2585.0" y="300.0" />
+        <di:waypoint x="2790.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Armazenar_DefinirPaleta" bpmnElement="Flow_Armazenar_DefinirPaleta">
+        <di:waypoint x="2790.0" y="470.0" />
+        <di:waypoint x="2800.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_DefinirPaleta_EnviarPaleta" bpmnElement="Flow_DefinirPaleta_EnviarPaleta">
+        <di:waypoint x="2800.0" y="150.0" />
+        <di:waypoint x="2770.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarPaleta_SalvarPaleta" bpmnElement="Flow_EnviarPaleta_SalvarPaleta">
+        <di:waypoint x="2770.0" y="300.0" />
+        <di:waypoint x="2970.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SalvarPaleta_MarcarConfigurado" bpmnElement="Flow_SalvarPaleta_MarcarConfigurado">
+        <di:waypoint x="2970.0" y="470.0" />
+        <di:waypoint x="3195.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_MarcarConfigurado_Direcionar" bpmnElement="Flow_MarcarConfigurado_Direcionar">
+        <di:waypoint x="3195.0" y="470.0" />
+        <di:waypoint x="2985.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Direcionar_ApresentarInterface" bpmnElement="Flow_Direcionar_ApresentarInterface">
+        <di:waypoint x="2985.0" y="300.0" />
+        <di:waypoint x="3190.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_InterfaceOnboarding_ProntoGeracao" bpmnElement="Flow_InterfaceOnboarding_ProntoGeracao">
+        <di:waypoint x="3190.0" y="300.0" />
+        <di:waypoint x="3345.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ProntoGeracao_EnviarPrompt" bpmnElement="Flow_ProntoGeracao_EnviarPrompt">
+        <di:waypoint x="3345.0" y="300.0" />
+        <di:waypoint x="3420.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarPrompt_TipoPrompt" bpmnElement="Flow_EnviarPrompt_TipoPrompt">
+        <di:waypoint x="3420.0" y="150.0" />
+        <di:waypoint x="3565.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_TipoPrompt_Texto" bpmnElement="Flow_TipoPrompt_Texto">
+        <di:waypoint x="3565.0" y="150.0" />
+        <di:waypoint x="3625.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_TipoPrompt_Imagem" bpmnElement="Flow_TipoPrompt_Imagem">
+        <di:waypoint x="3565.0" y="150.0" />
+        <di:waypoint x="3830.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Texto_UnirPrompt" bpmnElement="Flow_Texto_UnirPrompt">
+        <di:waypoint x="3625.0" y="300.0" />
+        <di:waypoint x="3765.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Imagem_UnirPrompt" bpmnElement="Flow_Imagem_UnirPrompt">
+        <di:waypoint x="3830.0" y="300.0" />
+        <di:waypoint x="3765.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_UnirPrompt_BuscarContexto" bpmnElement="Flow_UnirPrompt_BuscarContexto">
+        <di:waypoint x="3765.0" y="470.0" />
+        <di:waypoint x="4060.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_BuscarContexto_Preparar" bpmnElement="Flow_BuscarContexto_Preparar">
+        <di:waypoint x="4060.0" y="470.0" />
+        <di:waypoint x="4310.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Preparar_ReceberBriefing" bpmnElement="Flow_Preparar_ReceberBriefing">
+        <di:waypoint x="4310.0" y="470.0" />
+        <di:waypoint x="4310.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReceberBriefing_GerarMaster" bpmnElement="Flow_ReceberBriefing_GerarMaster">
+        <di:waypoint x="4310.0" y="640.0" />
+        <di:waypoint x="4525.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_GerarMaster_MasterEvent" bpmnElement="Flow_GerarMaster_MasterEvent">
+        <di:waypoint x="4525.0" y="640.0" />
+        <di:waypoint x="4678.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_MasterEvent_EscolhaModelo" bpmnElement="Flow_MasterEvent_EscolhaModelo">
+        <di:waypoint x="4678.0" y="640.0" />
+        <di:waypoint x="4765.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EscolhaModelo_Imagem" bpmnElement="Flow_EscolhaModelo_Imagem">
+        <di:waypoint x="4765.0" y="640.0" />
+        <di:waypoint x="5035.0" y="610.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EscolhaModelo_Video" bpmnElement="Flow_EscolhaModelo_Video">
+        <di:waypoint x="4765.0" y="640.0" />
+        <di:waypoint x="5035.0" y="690.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ModeloImagem_AcionarImagem" bpmnElement="Flow_ModeloImagem_AcionarImagem">
+        <di:waypoint x="5035.0" y="610.0" />
+        <di:waypoint x="5030.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ModeloVideo_AcionarVideo" bpmnElement="Flow_ModeloVideo_AcionarVideo">
+        <di:waypoint x="5035.0" y="690.0" />
+        <di:waypoint x="5230.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AcionarImagem_ModeloImagem" bpmnElement="Flow_AcionarImagem_ModeloImagem">
+        <di:waypoint x="5030.0" y="470.0" />
+        <di:waypoint x="5235.0" y="790.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AcionarVideo_ModeloVideo" bpmnElement="Flow_AcionarVideo_ModeloVideo">
+        <di:waypoint x="5230.0" y="470.0" />
+        <di:waypoint x="5235.0" y="870.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ModeloImagem_Retorno" bpmnElement="Flow_ModeloImagem_Retorno">
+        <di:waypoint x="5235.0" y="790.0" />
+        <di:waypoint x="5405.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ModeloVideo_Retorno" bpmnElement="Flow_ModeloVideo_Retorno">
+        <di:waypoint x="5235.0" y="870.0" />
+        <di:waypoint x="5405.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Retorno_SalvarResultado" bpmnElement="Flow_Retorno_SalvarResultado">
+        <di:waypoint x="5405.0" y="470.0" />
+        <di:waypoint x="5650.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SalvarResultado_AtualizarVisual" bpmnElement="Flow_SalvarResultado_AtualizarVisual">
+        <di:waypoint x="5650.0" y="470.0" />
+        <di:waypoint x="5670.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AtualizarVisual_SelecionarMidia" bpmnElement="Flow_AtualizarVisual_SelecionarMidia">
+        <di:waypoint x="5670.0" y="300.0" />
+        <di:waypoint x="5650.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_AtualizarVisual_Finalizar" bpmnElement="Flow_AtualizarVisual_Finalizar">
+        <di:waypoint x="5670.0" y="300.0" />
+        <di:waypoint x="6150.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_SelecionarMidia_EnviarNovaInstrucao" bpmnElement="Flow_SelecionarMidia_EnviarNovaInstrucao">
+        <di:waypoint x="5650.0" y="150.0" />
+        <di:waypoint x="5880.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_EnviarNovaInstrucao_ReferenciarMidia" bpmnElement="Flow_EnviarNovaInstrucao_ReferenciarMidia">
+        <di:waypoint x="5880.0" y="150.0" />
+        <di:waypoint x="5895.0" y="300.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReferenciarMidia_ReformularMaster" bpmnElement="Flow_ReferenciarMidia_ReformularMaster">
+        <di:waypoint x="5895.0" y="300.0" />
+        <di:waypoint x="5895.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ReformularMaster_EscolhaModelo" bpmnElement="Flow_ReformularMaster_EscolhaModelo">
+        <di:waypoint x="5895.0" y="640.0" />
+        <di:waypoint x="4765.0" y="640.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_Finalizar_RegistrarLogs" bpmnElement="Flow_Finalizar_RegistrarLogs">
+        <di:waypoint x="6150.0" y="150.0" />
+        <di:waypoint x="6130.0" y="470.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_RegistrarLogs_End" bpmnElement="Flow_RegistrarLogs_End">
+        <di:waypoint x="6130.0" y="470.0" />
+        <di:waypoint x="6338.0" y="150.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>`;
+      const viewer = new BpmnJS({ container: '#canvas' });
+
+      viewer
+        .importXML(diagramXML)
+        .then(() => {
+          const canvas = viewer.get('canvas');
+          const overlays = viewer.get('overlays');
+          const elementRegistry = viewer.get('elementRegistry');
+
+          canvas.zoom('fit-viewport');
+          const currentZoom = canvas.zoom();
+          canvas.zoom(currentZoom * 0.94, 'auto');
+
+          if (elementRegistry) {
+            const processRoot = elementRegistry.get('Process_StudioX');
+            if (processRoot) {
+              canvas.scrollToElement(processRoot, { top: 32, bottom: 32, left: 32, right: 32 });
+            }
+          }
+
+          const lanePalette = {
+            Lane_User: { fill: '#fdf2f8', stroke: '#be185d' },
+            Lane_Frontend: { fill: '#eef2ff', stroke: '#4338ca' },
+            Lane_Backend: { fill: '#eff6ff', stroke: '#1d4ed8' },
+            Lane_Spark: { fill: '#fff7ed', stroke: '#ea580c' },
+            Lane_Modelos: { fill: '#f1f5f9', stroke: '#334155' }
+          };
+
+          const stageAssignments = {
+            login: [
+              'StartEvent_Inicio',
+              'Task_AcessarLogin',
+              'Task_ExibirLogin',
+              'Task_EnviarCredenciais',
+              'Task_AutenticarUsuario',
+              'Task_RedirecionarInicial',
+              'Task_ExibirDashboard',
+              'Task_SelecionarProjeto',
+              'ExclusiveGateway_NovoProjeto'
+            ],
+            onboardingEstilo: [
+              'Task_EscolherEstilo',
+              'ExclusiveGateway_Estilo',
+              'Task_ConfirmarEstilo',
+              'Task_UploadEstilo',
+              'Task_EnviarImagensEstilo',
+              'Task_CriarJobEstilo',
+              'Task_AcionarModeloExtracao',
+              'IntermediateThrowEvent_EstiloCriado'
+            ],
+            onboardingContexto: [
+              'Task_ContextualizarProjeto',
+              'Task_EnviarContexto',
+              'Task_ArmazenarContexto',
+              'Task_DefinirPaleta',
+              'Task_EnviarPaleta',
+              'Task_SalvarPaleta',
+              'Task_MarcarConfigurado',
+              'Task_DirecionarTelaPrincipal',
+              'Task_ApresentarInterfaceOnboarding'
+            ],
+            geracao: [
+              'Task_AbrirProjetoExistente',
+              'Task_ApresentarInterfaceDireta',
+              'ExclusiveGateway_ProntoGeracao',
+              'Task_EnviarPrompt',
+              'InclusiveGateway_TipoPrompt',
+              'Task_RelayPromptSpark',
+              'Task_RelayImagemPrompt',
+              'InclusiveGateway_UnirPrompt',
+              'Task_BuscarContextoProjeto',
+              'Task_PrepararDadosSpark',
+              'Task_ReceberBriefing',
+              'Task_GerarMasterPrompt',
+              'IntermediateThrowEvent_MasterPrompt',
+              'ExclusiveGateway_EscolhaModelo'
+            ],
+            execucao: [
+              'Task_SelecionarModeloImagem',
+              'Task_SelecionarModeloVideo',
+              'Task_AcionarModeloImagem',
+              'Task_AcionarModeloVideo',
+              'Task_ModeloImagem',
+              'Task_ModeloVideo',
+              'ExclusiveGateway_RetornoModelo',
+              'Task_SalvarResultado'
+            ],
+            iteracao: [
+              'Task_AtualizarVisualizador',
+              'Task_SelecionarMidia',
+              'Task_EnviarNovaInstrucao',
+              'Task_ReferenciarMidia',
+              'Task_ReformularMasterPrompt'
+            ],
+            finalizacao: ['Task_FinalizarProjeto', 'Task_RegistrarLogs', 'EndEvent_Fim']
+          };
+
+          const stagePalette = {
+            login: { fill: '#dbeafe', stroke: '#1d4ed8' },
+            onboardingEstilo: { fill: '#fef3c7', stroke: '#c2410c' },
+            onboardingContexto: { fill: '#fce7f3', stroke: '#be185d' },
+            geracao: { fill: '#ede9fe', stroke: '#5b21b6' },
+            execucao: { fill: '#e0f2fe', stroke: '#0369a1' },
+            iteracao: { fill: '#ffe4e6', stroke: '#be123c' },
+            finalizacao: { fill: '#dcfce7', stroke: '#15803d' }
+          };
+
+          let styleRules = `#canvas svg text { font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif; fill: #0f172a; font-weight: 600; }
+#canvas svg .djs-lane-label text { fill: #1f2937; font-size: 14px; letter-spacing: 0.02em; }
+#canvas svg .djs-connection path { stroke: #1f2937; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+#canvas svg .marker-arrow path, #canvas svg .djs-marker path { fill: #1f2937; }
+#canvas svg .djs-shape:not(.djs-connection) .djs-visual > rect { rx: 14; ry: 14; }
+#canvas svg .djs-shape .djs-visual > text { fill: #0f172a; }
+`;
+
+          Object.entries(lanePalette).forEach(([laneId, colors]) => {
+            styleRules += `#canvas svg g[data-element-id="${laneId}"] .djs-visual > rect { fill: ${colors.fill}; stroke: ${colors.stroke}; stroke-width: 3; opacity: 0.92; }
+`;
+          });
+
+          const baseSelector = (id) =>
+            `#canvas svg g[data-element-id="${id}"] .djs-visual > rect, #canvas svg g[data-element-id="${id}"] .djs-visual > path, #canvas svg g[data-element-id="${id}"] .djs-visual > polygon, #canvas svg g[data-element-id="${id}"] .djs-visual > circle`;
+
+          Object.entries(stageAssignments).forEach(([stage, elements]) => {
+            const palette = stagePalette[stage];
+            elements.forEach((id) => {
+              styleRules += `${baseSelector(id)} { fill: ${palette.fill}; stroke: ${palette.stroke}; stroke-width: 2.8; }
+`;
+            });
+          });
+
+          styleRules += `#canvas svg g[data-element-id="BoundaryEvent_ErroEstilo"] .djs-visual > circle { fill: #fee2e2; stroke: #b91c1c; stroke-width: 3; }
+#canvas svg g[data-element-id="Task_HandleError"] .djs-visual > rect { fill: #fee2e2; stroke: #b91c1c; stroke-width: 2.8; }
+`;
+
+          const styleElement = document.createElement('style');
+          styleElement.textContent = styleRules;
+          document.head.appendChild(styleElement);
+
+          if (overlays) {
+            const createBadge = (label, phase) => {
+              const badge = document.createElement('div');
+              badge.className = 'phase-badge';
+              badge.dataset.phase = phase;
+              badge.textContent = label;
+              return badge;
+            };
+
+            overlays.add('Task_AcessarLogin', {
+              position: { top: -38, left: -14 },
+              html: createBadge('Login & Cadastro', 'login')
+            });
+
+            overlays.add('Task_EscolherEstilo', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Onboarding · Estilo', 'onboarding-estilo')
+            });
+
+            overlays.add('Task_ContextualizarProjeto', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Onboarding · Contexto e Paleta', 'onboarding-contexto')
+            });
+
+            overlays.add('Task_EnviarPrompt', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Geração de Conteúdo', 'geracao')
+            });
+
+            overlays.add('Task_SelecionarMidia', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Edição Iterativa', 'iteracao')
+            });
+
+            overlays.add('Task_FinalizarProjeto', {
+              position: { top: -38, left: -14 },
+              html: createBadge('Finalização', 'finalizacao')
+            });
+          }
+        })
+        .catch((err) => {
+          console.error('Erro ao carregar BPMN:', err);
+        });
+    </script>
+  </body>
+</html>
