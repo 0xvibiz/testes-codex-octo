@@ -7,63 +7,182 @@
     <link rel="preconnect" href="https://unpkg.com" />
     <style>
       :root {
-        color-scheme: light dark;
-        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        line-height: 1.5;
-        background-color: #0f172a;
-        color: #e2e8f0;
+        color-scheme: light;
+        font-family: "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f1f5f9;
+        color: #0f172a;
       }
 
       body {
         margin: 0;
         min-height: 100vh;
-        display: grid;
-        place-items: center;
-        padding: clamp(1.5rem, 3vw, 3rem);
-        background: radial-gradient(circle at top, #1e293b 10%, #0f172a 55%, #020617);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: clamp(1.5rem, 4vw, 4rem);
+        background: radial-gradient(circle at top, #e0f2fe 0%, #f8fafc 45%, #e2e8f0 100%);
       }
 
       main {
-        width: min(96vw, 1400px);
-        background: rgba(15, 23, 42, 0.6);
+        width: min(1180px, 96vw);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 28px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        padding: clamp(1.75rem, 3vw, 2.75rem);
+        box-shadow: 0 30px 70px -40px rgba(15, 23, 42, 0.55);
         backdrop-filter: blur(18px);
-        border-radius: 24px;
-        border: 1px solid rgba(148, 163, 184, 0.25);
-        padding: clamp(1.5rem, 2vw, 2.5rem);
-        box-shadow: 0 32px 64px -32px rgba(15, 23, 42, 0.75);
       }
 
       header {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.75rem;
       }
 
       h1 {
-        font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+        font-size: clamp(1.9rem, 2.8vw, 2.55rem);
         margin: 0 0 0.5rem;
-        color: #38bdf8;
+        color: #1d4ed8;
       }
 
-      p {
+      .subtitle {
         margin: 0;
-        color: rgba(226, 232, 240, 0.85);
+        color: #334155;
+        font-size: 1.05rem;
+      }
+
+      section.legend {
+        margin-bottom: 1.5rem;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 1rem 1.5rem;
+        background: rgba(241, 245, 249, 0.6);
+      }
+
+      section.legend h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #475569;
+      }
+
+      .legend__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.5rem 1.25rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+
+      .legend__item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      .legend__swatch {
+        width: 1.75rem;
+        height: 1.75rem;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+      }
+
+      .legend__swatch--user {
+        background: #def7ec;
+        border-color: #0d9488;
+      }
+
+      .legend__swatch--frontend {
+        background: #ede9fe;
+        border-color: #7c3aed;
+      }
+
+      .legend__swatch--backend {
+        background: #dbeafe;
+        border-color: #2563eb;
+      }
+
+      .legend__swatch--spark {
+        background: #fef3c7;
+        border-color: #d97706;
+      }
+
+      .legend__swatch--modelos {
+        background: #e2e8f0;
+        border-color: #475569;
       }
 
       #canvas {
-        height: clamp(720px, 75vh, 820px);
-        border-radius: 16px;
+        height: clamp(720px, 75vh, 860px);
+        border-radius: 18px;
         overflow: hidden;
-        background: #fff;
+        background: linear-gradient(120deg, rgba(241, 245, 249, 0.9), rgba(226, 232, 240, 0.65));
+        border: 1px solid rgba(148, 163, 184, 0.35);
       }
 
       footer {
-        margin-top: 1.5rem;
-        font-size: 0.9rem;
-        color: rgba(226, 232, 240, 0.6);
+        margin-top: 1.75rem;
+        font-size: 0.95rem;
+        color: #475569;
         text-align: center;
       }
 
       a {
-        color: #38bdf8;
+        color: #2563eb;
+      }
+
+      .phase-badge {
+        padding: 0.35rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        font-weight: 700;
+        text-transform: uppercase;
+        box-shadow: 0 10px 20px -12px rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        background: #e2e8f0;
+        color: #0f172a;
+        white-space: nowrap;
+      }
+
+      .phase-badge[data-phase="login"] {
+        background: #dbeafe;
+        color: #1e3a8a;
+      }
+
+      .phase-badge[data-phase="onboarding-estilo"] {
+        background: #fef3c7;
+        color: #c2410c;
+      }
+
+      .phase-badge[data-phase="onboarding-contexto"] {
+        background: #fce7f3;
+        color: #9d174d;
+      }
+
+      .phase-badge[data-phase="geracao"] {
+        background: #ede9fe;
+        color: #5b21b6;
+      }
+
+      .phase-badge[data-phase="iteracao"] {
+        background: #ffe4e6;
+        color: #be123c;
+      }
+
+      .phase-badge[data-phase="finalizacao"] {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      @media (max-width: 980px) {
+        #canvas {
+          height: 75vh;
+        }
       }
     </style>
   </head>
@@ -71,14 +190,23 @@
     <main>
       <header>
         <h1>🧠 Criação e Geração de Conteúdo – Plataforma Studio X</h1>
-        <p>Fluxo BPMN detalhado para criação, geração, edição e finalização de mídias na plataforma Studio X com o agente Spark.</p>
+        <p class="subtitle">Fluxo orquestrado ponta a ponta – do login à entrega final – detalhando interações entre Usuário, Studio X, Backend, Spark e modelos de IA.</p>
       </header>
+      <section class="legend" aria-label="Participantes do processo">
+        <h2>Participantes e responsabilidades</h2>
+        <ul class="legend__list">
+          <li class="legend__item"><span class="legend__swatch legend__swatch--user" aria-hidden="true"></span>Usuário</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--frontend" aria-hidden="true"></span>Frontend Studio X</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--backend" aria-hidden="true"></span>Backend</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--spark" aria-hidden="true"></span>Spark</li>
+          <li class="legend__item"><span class="legend__swatch legend__swatch--modelos" aria-hidden="true"></span>Modelos AI</li>
+        </ul>
+      </section>
       <div id="canvas" role="presentation" aria-label="Diagrama BPMN renderizado"></div>
       <footer>Construído com <a href="https://bpmn.io" target="_blank" rel="noreferrer">bpmn.io</a> – arraste para navegar e use o scroll para ampliar.</footer>
     </main>
 
     <script src="https://unpkg.com/bpmn-js@10.3.0/dist/bpmn-navigated-viewer.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bpmn-js@10.3.0/dist/bpmn-navigated-viewer.production.min.js" integrity="sha384-kHTxI0LtpW3ohFEgfLZg9GO4bBZ5VBazlYlVK60J3UNnIH1z2XHqZfUZXRf1CQqY" crossorigin="anonymous"></script>
     <script>
       const diagramXML = `<?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_StudioX" targetNamespace="http://bpmn.io/schema/bpmn">
@@ -726,13 +854,191 @@
         .then(() => {
           const canvas = viewer.get('canvas');
           const elementRegistry = viewer.get('elementRegistry');
+          const modeling = viewer.get('modeling');
+          const overlays = viewer.get('overlays');
+
           canvas.zoom('fit-viewport');
           const currentZoom = canvas.zoom();
-          canvas.zoom(currentZoom * 0.92, 'auto');
+          canvas.zoom(currentZoom * 0.94, 'auto');
 
           const processRoot = elementRegistry.get('Process_StudioX');
           if (processRoot) {
-            canvas.scrollToElement(processRoot, { top: 40, bottom: 40, left: 40, right: 40 });
+            canvas.scrollToElement(processRoot, { top: 32, bottom: 32, left: 32, right: 32 });
+          }
+
+          if (modeling) {
+            const lanePalette = {
+              Lane_User: { fill: '#def7ec', stroke: '#0f766e' },
+              Lane_Frontend: { fill: '#ede9fe', stroke: '#7c3aed' },
+              Lane_Backend: { fill: '#dbeafe', stroke: '#2563eb' },
+              Lane_Spark: { fill: '#fef3c7', stroke: '#d97706' },
+              Lane_Modelos: { fill: '#e2e8f0', stroke: '#475569' }
+            };
+
+            Object.entries(lanePalette).forEach(([elementId, colors]) => {
+              const element = elementRegistry.get(elementId);
+              if (element) {
+                modeling.setColor(element, colors);
+              }
+            });
+
+            const applyStageColor = (elementIds, colors) => {
+              elementIds.forEach((id) => {
+                const target = elementRegistry.get(id);
+                if (target) {
+                  modeling.setColor(target, colors);
+                }
+              });
+            };
+
+            const stagePalette = {
+              login: { fill: '#dbeafe', stroke: '#1d4ed8' },
+              onboardingEstilo: { fill: '#fef3c7', stroke: '#c2410c' },
+              onboardingContexto: { fill: '#fce7f3', stroke: '#be185d' },
+              geracao: { fill: '#ede9fe', stroke: '#5b21b6' },
+              execucao: { fill: '#e0f2fe', stroke: '#0369a1' },
+              iteracao: { fill: '#ffe4e6', stroke: '#be123c' },
+              finalizacao: { fill: '#dcfce7', stroke: '#15803d' }
+            };
+
+            applyStageColor(
+              [
+                'StartEvent_Inicio',
+                'Task_AcessarLogin',
+                'Task_ExibirLogin',
+                'Task_EnviarCredenciais',
+                'Task_AutenticarUsuario',
+                'Task_RedirecionarInicial',
+                'Task_ExibirDashboard',
+                'Task_SelecionarProjeto',
+                'ExclusiveGateway_NovoProjeto'
+              ],
+              stagePalette.login
+            );
+
+            applyStageColor(
+              [
+                'Task_EscolherEstilo',
+                'ExclusiveGateway_Estilo',
+                'Task_ConfirmarEstilo',
+                'Task_UploadEstilo',
+                'Task_EnviarImagensEstilo',
+                'Task_CriarJobEstilo',
+                'Task_AcionarModeloExtracao',
+                'IntermediateThrowEvent_EstiloCriado'
+              ],
+              stagePalette.onboardingEstilo
+            );
+
+            applyStageColor(
+              ['BoundaryEvent_ErroEstilo', 'Task_HandleError'],
+              { fill: '#fee2e2', stroke: '#b91c1c' }
+            );
+
+            applyStageColor(
+              [
+                'Task_ContextualizarProjeto',
+                'Task_EnviarContexto',
+                'Task_ArmazenarContexto',
+                'Task_DefinirPaleta',
+                'Task_EnviarPaleta',
+                'Task_SalvarPaleta',
+                'Task_MarcarConfigurado',
+                'Task_DirecionarTelaPrincipal',
+                'Task_ApresentarInterfaceOnboarding'
+              ],
+              stagePalette.onboardingContexto
+            );
+
+            applyStageColor(
+              [
+                'Task_AbrirProjetoExistente',
+                'Task_ApresentarInterfaceDireta',
+                'ExclusiveGateway_ProntoGeracao',
+                'Task_EnviarPrompt',
+                'InclusiveGateway_TipoPrompt',
+                'Task_RelayPromptSpark',
+                'Task_RelayImagemPrompt',
+                'InclusiveGateway_UnirPrompt',
+                'Task_BuscarContextoProjeto',
+                'Task_PrepararDadosSpark',
+                'Task_ReceberBriefing',
+                'Task_GerarMasterPrompt',
+                'IntermediateThrowEvent_MasterPrompt',
+                'ExclusiveGateway_EscolhaModelo'
+              ],
+              stagePalette.geracao
+            );
+
+            applyStageColor(
+              [
+                'Task_SelecionarModeloImagem',
+                'Task_SelecionarModeloVideo',
+                'Task_AcionarModeloImagem',
+                'Task_AcionarModeloVideo',
+                'Task_ModeloImagem',
+                'Task_ModeloVideo',
+                'ExclusiveGateway_RetornoModelo',
+                'Task_SalvarResultado'
+              ],
+              stagePalette.execucao
+            );
+
+            applyStageColor(
+              [
+                'Task_AtualizarVisualizador',
+                'Task_SelecionarMidia',
+                'Task_EnviarNovaInstrucao',
+                'Task_ReferenciarMidia',
+                'Task_ReformularMasterPrompt'
+              ],
+              stagePalette.iteracao
+            );
+
+            applyStageColor(
+              ['Task_FinalizarProjeto', 'Task_RegistrarLogs', 'EndEvent_Fim'],
+              stagePalette.finalizacao
+            );
+          }
+
+          if (overlays) {
+            const createBadge = (label, phase) => {
+              const badge = document.createElement('div');
+              badge.className = 'phase-badge';
+              badge.dataset.phase = phase;
+              badge.textContent = label;
+              return badge;
+            };
+
+            overlays.add('Task_AcessarLogin', {
+              position: { top: -38, left: -14 },
+              html: createBadge('Login & Cadastro', 'login')
+            });
+
+            overlays.add('Task_EscolherEstilo', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Onboarding · Estilo', 'onboarding-estilo')
+            });
+
+            overlays.add('Task_ContextualizarProjeto', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Onboarding · Contexto e Paleta', 'onboarding-contexto')
+            });
+
+            overlays.add('Task_EnviarPrompt', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Geração de Conteúdo', 'geracao')
+            });
+
+            overlays.add('Task_SelecionarMidia', {
+              position: { top: -40, left: -16 },
+              html: createBadge('Edição Iterativa', 'iteracao')
+            });
+
+            overlays.add('Task_FinalizarProjeto', {
+              position: { top: -38, left: -14 },
+              html: createBadge('Finalização', 'finalizacao')
+            });
           }
         })
         .catch((err) => {
