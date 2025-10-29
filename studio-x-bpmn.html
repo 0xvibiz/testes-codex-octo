@@ -77,6 +77,7 @@
       <footer>Construído com <a href="https://bpmn.io" target="_blank" rel="noreferrer">bpmn.io</a> – arraste para navegar e use o scroll para ampliar.</footer>
     </main>
 
+    <script src="https://unpkg.com/bpmn-js@10.3.0/dist/bpmn-navigated-viewer.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bpmn-js@10.3.0/dist/bpmn-navigated-viewer.production.min.js" integrity="sha384-kHTxI0LtpW3ohFEgfLZg9GO4bBZ5VBazlYlVK60J3UNnIH1z2XHqZfUZXRf1CQqY" crossorigin="anonymous"></script>
     <script>
       const diagramXML = `<?xml version="1.0" encoding="UTF-8"?>
@@ -152,124 +153,66 @@
         <bpmn:flowNodeRef>Task_ModeloVideo</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_Inicio" name="Início"
- />
-    <bpmn:task id="Task_AcessarLogin" name="Acessar tela de login"
- />
-    <bpmn:task id="Task_ExibirLogin" name="Exibir opções Entrar/Cadastrar"
- />
-    <bpmn:task id="Task_EnviarCredenciais" name="Enviar dados ao Backend"
- />
-    <bpmn:task id="Task_AutenticarUsuario" name="Autenticar usuário e retornar token"
- />
-    <bpmn:task id="Task_RedirecionarInicial" name="Redirecionar para tela inicial"
- />
-    <bpmn:task id="Task_ExibirDashboard" name="Exibir projetos e estilos salvos"
- />
-    <bpmn:task id="Task_SelecionarProjeto" name="Escolher ação na tela inicial"
- />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_NovoProjeto" name="Criar novo projeto?"
- />
-    <bpmn:task id="Task_AbrirProjetoExistente" name="Abrir projeto existente"
- />
-    <bpmn:task id="Task_ApresentarInterfaceDireta" name="Apresentar interface de geração"
- />
-    <bpmn:task id="Task_EscolherEstilo" name="Selecionar ou criar estilo"
- />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_Estilo" name="Criar novo estilo?"
- />
-    <bpmn:task id="Task_ConfirmarEstilo" name="Confirmar estilo existente"
- />
-    <bpmn:task id="Task_UploadEstilo" name="Enviar 1-10 imagens de referência"
- />
-    <bpmn:task id="Task_EnviarImagensEstilo" name="Encaminhar upload para Backend"
- />
-    <bpmn:task id="Task_CriarJobEstilo" name="Criar job de extração"
- />
-    <bpmn:task id="Task_AcionarModeloExtracao" name="Acionar modelo de extração"
- />
-    <bpmn:boundaryEvent id="BoundaryEvent_ErroEstilo" name="Erro" attachedToRef="Task_AcionarModeloExtracao" cancelActivity="true"
-    >
+    <bpmn:startEvent id="StartEvent_Inicio" name="Início" />
+    <bpmn:task id="Task_AcessarLogin" name="Acessar tela de login" />
+    <bpmn:task id="Task_ExibirLogin" name="Exibir opções Entrar/Cadastrar" />
+    <bpmn:task id="Task_EnviarCredenciais" name="Enviar dados ao Backend" />
+    <bpmn:task id="Task_AutenticarUsuario" name="Autenticar usuário e retornar token" />
+    <bpmn:task id="Task_RedirecionarInicial" name="Redirecionar para tela inicial" />
+    <bpmn:task id="Task_ExibirDashboard" name="Exibir projetos e estilos salvos" />
+    <bpmn:task id="Task_SelecionarProjeto" name="Escolher ação na tela inicial" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_NovoProjeto" name="Criar novo projeto?" />
+    <bpmn:task id="Task_AbrirProjetoExistente" name="Abrir projeto existente" />
+    <bpmn:task id="Task_ApresentarInterfaceDireta" name="Abrir tela principal (Spark / Visualizador / Histórico)" />
+    <bpmn:task id="Task_EscolherEstilo" name="Selecionar ou criar estilo" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_Estilo" name="Criar novo estilo?" />
+    <bpmn:task id="Task_ConfirmarEstilo" name="Confirmar estilo existente" />
+    <bpmn:task id="Task_UploadEstilo" name="Enviar 1-10 imagens de referência" />
+    <bpmn:task id="Task_EnviarImagensEstilo" name="Encaminhar upload para Backend" />
+    <bpmn:task id="Task_CriarJobEstilo" name="Criar job de extração" />
+    <bpmn:task id="Task_AcionarModeloExtracao" name="Acionar modelo de extração e salvar JSON" />
+    <bpmn:boundaryEvent id="BoundaryEvent_ErroEstilo" name="Erro ao criar estilo" attachedToRef="Task_AcionarModeloExtracao" cancelActivity="true">
       <bpmn:errorEventDefinition errorRef="Error_Geracao" />
     </bpmn:boundaryEvent>
-    <bpmn:task id="Task_HandleError" name="Handle Error"
- />
-    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_EstiloCriado" name="Estilo criado"
- />
-    <bpmn:task id="Task_ContextualizarProjeto" name="Contextualizar projeto"
- />
-    <bpmn:task id="Task_EnviarContexto" name="Enviar contexto ao Backend"
- />
-    <bpmn:task id="Task_ArmazenarContexto" name="Processar e salvar contexto"
- />
-    <bpmn:task id="Task_DefinirPaleta" name="Definir paleta de cores"
- />
-    <bpmn:task id="Task_EnviarPaleta" name="Enviar paleta"
- />
-    <bpmn:task id="Task_SalvarPaleta" name="Salvar paleta no BD"
- />
-    <bpmn:task id="Task_MarcarConfigurado" name="Marcar projeto como configurado"
- />
-    <bpmn:task id="Task_DirecionarTelaPrincipal" name="Direcionar à tela principal"
- />
-    <bpmn:task id="Task_ApresentarInterfaceOnboarding" name="Apresentar interface completa"
- />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_ProntoGeracao" name="Pronto para gerar?"
- />
-    <bpmn:task id="Task_EnviarPrompt" name="Enviar prompt para Spark"
- />
-    <bpmn:inclusiveGateway id="InclusiveGateway_TipoPrompt" name="Texto e/ou imagem"
- />
-    <bpmn:task id="Task_RelayPromptSpark" name="Encaminhar prompt textual"
- />
-    <bpmn:task id="Task_RelayImagemPrompt" name="Encaminhar prompt por imagem"
- />
-    <bpmn:inclusiveGateway id="InclusiveGateway_UnirPrompt" name="Consolidar prompt"
- />
-    <bpmn:task id="Task_BuscarContextoProjeto" name="Buscar estilo, contexto e paleta"
- />
-    <bpmn:task id="Task_PrepararDadosSpark" name="Enviar briefing completo ao Spark"
- />
-    <bpmn:task id="Task_ReceberBriefing" name="Receber prompt + estilo + paleta"
- />
-    <bpmn:task id="Task_GerarMasterPrompt" name="Gerar master prompt"
- />
-    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_MasterPrompt" name="Master prompt gerado"
- />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_EscolhaModelo" name="Qual modelo executar?"
- />
-    <bpmn:task id="Task_SelecionarModeloImagem" name="Selecionar modelo de imagem"
- />
-    <bpmn:task id="Task_SelecionarModeloVideo" name="Selecionar modelo de vídeo"
- />
-    <bpmn:task id="Task_AcionarModeloImagem" name="Acionar modelo de imagem"
- />
-    <bpmn:task id="Task_AcionarModeloVideo" name="Acionar modelo de vídeo"
- />
-    <bpmn:task id="Task_ModeloImagem" name="Modelo de imagem gera mídia"
- />
-    <bpmn:task id="Task_ModeloVideo" name="Modelo de vídeo gera mídia"
- />
-    <bpmn:exclusiveGateway id="ExclusiveGateway_RetornoModelo" name="Retorno do modelo"
- />
-    <bpmn:task id="Task_SalvarResultado" name="Salvar resultado e metadados"
- />
-    <bpmn:task id="Task_AtualizarVisualizador" name="Atualizar visualizador e histórico"
- />
-    <bpmn:task id="Task_SelecionarMidia" name="Selecionar mídia no painel"
- />
-    <bpmn:task id="Task_EnviarNovaInstrucao" name="Enviar nova instrução"
- />
-    <bpmn:task id="Task_ReferenciarMidia" name="Referenciar mídia ativa ao Spark"
- />
-    <bpmn:task id="Task_ReformularMasterPrompt" name="Reformular master prompt"
- />
-    <bpmn:task id="Task_FinalizarProjeto" name="Exportar / arquivar / novo projeto"
- />
-    <bpmn:task id="Task_RegistrarLogs" name="Registrar logs e status"
- />
-    <bpmn:endEvent id="EndEvent_Fim" name="Projeto concluído"
- />
+    <bpmn:task id="Task_HandleError" name="Registrar erro e status" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_EstiloCriado" name="Estilo criado (Studio X confirma)" />
+    <bpmn:task id="Task_ContextualizarProjeto" name="Contextualizar projeto" />
+    <bpmn:task id="Task_EnviarContexto" name="Enviar contexto ao Backend" />
+    <bpmn:task id="Task_ArmazenarContexto" name="Processar e salvar contexto" />
+    <bpmn:task id="Task_DefinirPaleta" name="Definir paleta de cores" />
+    <bpmn:task id="Task_EnviarPaleta" name="Enviar paleta" />
+    <bpmn:task id="Task_SalvarPaleta" name="Salvar paleta no BD" />
+    <bpmn:task id="Task_MarcarConfigurado" name="Marcar projeto como configurado" />
+    <bpmn:task id="Task_DirecionarTelaPrincipal" name="Direcionar à tela principal" />
+    <bpmn:task id="Task_ApresentarInterfaceOnboarding" name="Apresentar layout principal (Spark / Visualizador / Histórico)" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_ProntoGeracao" name="Pronto para gerar?" />
+    <bpmn:task id="Task_EnviarPrompt" name="Enviar prompt para Spark" />
+    <bpmn:inclusiveGateway id="InclusiveGateway_TipoPrompt" name="Texto, imagem e/ou frames" />
+    <bpmn:task id="Task_RelayPromptSpark" name="Encaminhar prompt textual" />
+    <bpmn:task id="Task_RelayImagemPrompt" name="Encaminhar prompt visual / frames" />
+    <bpmn:inclusiveGateway id="InclusiveGateway_UnirPrompt" name="Consolidar prompt" />
+    <bpmn:task id="Task_BuscarContextoProjeto" name="Validar projeto e buscar estilo/contexto/paleta" />
+    <bpmn:task id="Task_PrepararDadosSpark" name="Consolidar briefing completo ao Spark" />
+    <bpmn:task id="Task_ReceberBriefing" name="Receber prompt + estilo + paleta" />
+    <bpmn:task id="Task_GerarMasterPrompt" name="Gerar master prompt consolidado" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_MasterPrompt" name="Master prompt gerado" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_EscolhaModelo" name="Decidir pipeline (imagem ou vídeo)" />
+    <bpmn:task id="Task_SelecionarModeloImagem" name="Selecionar pipeline de imagem" />
+    <bpmn:task id="Task_SelecionarModeloVideo" name="Selecionar pipeline de vídeo/animação" />
+    <bpmn:task id="Task_AcionarModeloImagem" name="Chamar modelo de imagem e aguardar retorno" />
+    <bpmn:task id="Task_AcionarModeloVideo" name="Chamar modelo de vídeo e aguardar retorno" />
+    <bpmn:task id="Task_ModeloImagem" name="Modelo de imagem gera mídia" />
+    <bpmn:task id="Task_ModeloVideo" name="Modelo de vídeo gera mídia" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_RetornoModelo" name="Retorno do modelo AI" />
+    <bpmn:task id="Task_SalvarResultado" name="Salvar resultado (link, metadados e contexto)" />
+    <bpmn:task id="Task_AtualizarVisualizador" name="Atualizar visualizador e painel histórico" />
+    <bpmn:task id="Task_SelecionarMidia" name="Selecionar mídia no painel" />
+    <bpmn:task id="Task_EnviarNovaInstrucao" name="Enviar nova instrução ou reexecutar prompt" />
+    <bpmn:task id="Task_ReferenciarMidia" name="Referenciar mídia ativa ao Spark" />
+    <bpmn:task id="Task_ReformularMasterPrompt" name="Reformular master prompt (inclui animação se solicitado)" />
+    <bpmn:task id="Task_FinalizarProjeto" name="Exportar / Arquivar / Criar novo projeto" />
+    <bpmn:task id="Task_RegistrarLogs" name="Registrar logs finais e status de geração" />
+    <bpmn:endEvent id="EndEvent_Fim" name="Projeto concluído" />
     <bpmn:sequenceFlow id="Flow_Start_AcessarLogin" sourceRef="StartEvent_Inicio" targetRef="Task_AcessarLogin" />
     <bpmn:sequenceFlow id="Flow_AcessarLogin_ExibirLogin" sourceRef="Task_AcessarLogin" targetRef="Task_ExibirLogin" />
     <bpmn:sequenceFlow id="Flow_ExibirLogin_EnviarCredenciais" sourceRef="Task_ExibirLogin" targetRef="Task_EnviarCredenciais" />
@@ -778,12 +721,23 @@
 </bpmn:definitions>`;
       const viewer = new BpmnJS({ container: '#canvas' });
 
-      viewer.importXML(diagramXML).then(() => {
-        const canvas = viewer.get('canvas');
-        canvas.zoom('fit-viewport', 'auto');
-      }).catch((err) => {
-        console.error('Erro ao carregar BPMN:', err);
-      });
+      viewer
+        .importXML(diagramXML)
+        .then(() => {
+          const canvas = viewer.get('canvas');
+          const elementRegistry = viewer.get('elementRegistry');
+          canvas.zoom('fit-viewport');
+          const currentZoom = canvas.zoom();
+          canvas.zoom(currentZoom * 0.92, 'auto');
+
+          const processRoot = elementRegistry.get('Process_StudioX');
+          if (processRoot) {
+            canvas.scrollToElement(processRoot, { top: 40, bottom: 40, left: 40, right: 40 });
+          }
+        })
+        .catch((err) => {
+          console.error('Erro ao carregar BPMN:', err);
+        });
     </script>
   </body>
 </html>
